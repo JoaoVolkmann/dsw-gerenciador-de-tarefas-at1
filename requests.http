@@ -1,0 +1,13 @@
+### Listar todas as tarefas
+GET http://localhost:3000/api/tasks
+
+### Criar uma nova tarefa
+POST http://localhost:3000/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Nova tarefa de teste"
+}
+
+### Deletar uma tarefa (troque o :id pelo id real retornado no POST)
+DELETE http://localhost:3000/api/tasks/1
