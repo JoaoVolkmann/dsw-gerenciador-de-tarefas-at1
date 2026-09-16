@@ -1,13 +1,110 @@
+# requests.http — Testes da API (REST Client)
+#
+# Como usar (VS Code + extensão REST Client):
+#   1. Deixe o servidor rodando (`npm run dev` em outro terminal).
+#   2. Clique em "Send Request" acima de cada bloco.
+
+@baseUrl = http://localhost:3000
+
+### ============================================================
+### Rotas de status
+### ============================================================
+
+### Health check — confirma que o servidor está no ar
+GET {{baseUrl}}/api/health
+
+### Versão da API
+GET {{baseUrl}}/api/version
+
+### ============================================================
+### Tarefas
+### ============================================================
+
 ### Listar todas as tarefas
-GET http://localhost:3000/api/tasks
+GET {{baseUrl}}/api/tasks
+
+### Listar tarefas filtrando por título (busca)
+GET {{baseUrl}}/api/tasks?search=Prova
 
 ### Criar uma nova tarefa
-POST http://localhost:3000/api/tasks
+POST {{baseUrl}}/api/tasks
 Content-Type: application/json
 
 {
-  "title": "Nova tarefa de teste"
+  "titulo": "Estudar SQL Injection",
+  "prioridade": "high"
 }
 
-### Deletar uma tarefa (troque o :id pelo id real retornado no POST)
-DELETE http://localhost:3000/api/tasks/1
+### Criar tarefa com título curto — deve devolver 400
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{
+  "titulo": "ab",
+  "prioridade": "high"
+}
+
+### Criar tarefa com prioridade inválida — deve virar "medium"
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{
+  "titulo": "Tarefa com prioridade estranha",
+  "prioridade": "urgentissima"
+}
+
+### Atualizar uma tarefa inteira (PUT) — troque o id na URL
+PUT {{baseUrl}}/api/tasks/1
+Content-Type: application/json
+
+{
+  "titulo": "Estudar SQL Injection (revisado)",
+  "prioridade": "medium",
+  "status": "completed"
+}
+
+### Atualização parcial (PATCH) — troque o id na URL
+PATCH {{baseUrl}}/api/tasks/1
+Content-Type: application/json
+
+{
+  "status": "pending"
+}
+
+### PATCH com status inválido — deve devolver 400
+PATCH {{baseUrl}}/api/tasks/1
+Content-Type: application/json
+
+{
+  "status": "quase_pronto"
+}
+
+### PATCH sem nenhum campo — deve devolver 400
+PATCH {{baseUrl}}/api/tasks/1
+Content-Type: application/json
+
+{
+}
+
+### Excluir uma tarefa — troque o id na URL
+DELETE {{baseUrl}}/api/tasks/1
+
+### ID inválido no DELETE — deve devolver 400
+DELETE {{baseUrl}}/api/tasks/12abc
+
+### ID inexistente no DELETE — deve devolver 404
+DELETE {{baseUrl}}/api/tasks/999999
+
+### ============================================================
+### Testes de segurança
+### ============================================================
+
+### Ataque de SQL Injection na rota protegida — não deve retornar nada
+GET {{baseUrl}}/api/tasks?search=%27%20OR%20%271%27%3D%271
+
+### 31. Teste de Array Injection (A Busca Bizarra)
+# Sem proteção: O JS converte ['a', 'b'] em "a,b" e faz uma busca descontrolada que não acha nada.
+# Com proteção: O servidor percebe que não é uma string pura, barra o array e lista as tarefas intencionalmente.
+GET {{baseUrl}}/api/tasks?search=a&search=b
+
+### 32. Teste de Parâmetro Indefinido
