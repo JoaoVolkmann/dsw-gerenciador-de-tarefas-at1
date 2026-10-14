@@ -24,3 +24,32 @@ Incluí os testes 31 e 32 no .http e rodei antes e depois da proteção, compara
 Ajustei a quebra de linha dos comentários e uni os dois arquivos de teste (testes.http e resquest.http) em um único.
 Observações (opcional) 💡
 Ficaram Prepared Statements criados e ainda sem uso nas rotas de escrita — a limpeza de POST/PUT/PATCH/DELETE fica para a próxima aula.
+Aula 03 — Registro e login com bcrypt e JWT (23/09/2026)
+O que eu aprendi ✅
+Criei as rotas POST /api/auth/register e POST /api/auth/login. A senha nunca é salva: o banco guarda só o hash gerado pelo bcryptjs (custo 10), e no login comparo a senha digitada com esse hash.
+No login certo, o servidor devolve um token JWT assinado com JWT_SECRET, válido por 1 hora, com o id do usuário dentro (campo sub).
+Respondo a mesma mensagem ("E-mail ou senha incorretos.") para e-mail inexistente e senha errada, e comparo com um hash falso quando o e-mail não existe, para o tempo de resposta não denunciar quais e-mails estão cadastrados.
+Deixei o e-mail único sem diferenciar maiúsculas (índice UNIQUE com COLLATE NOCASE) e só respondo 409 quando o erro é mesmo de e-mail repetido.
+Principal dificuldade 🧩
+(preencher)
+Como eu resolvi 🔧
+(preencher)
+Aula 04 — Rotas protegidas e isolamento por usuário (30/09/2026)
+O que eu aprendi ✅
+Criei o middleware exigirLogin: ele lê o cabeçalho Authorization: Bearer <token>, valida o JWT e coloca o id do usuário em req.usuarioId. Sem token ou com token inválido/expirado, responde 401 antes de chegar na rota.
+A tabela tarefas ganhou a coluna usuario_id, e todas as consultas filtram por ela (WHERE id = ? AND usuario_id = ?). Se alguém tenta editar ou apagar a tarefa de outra pessoa, a consulta afeta 0 linhas e a resposta é 404, sem revelar que a tarefa existe.
+Aprendi que CREATE TABLE IF NOT EXISTS não altera tabela antiga: o meu tarefas.db velho estava sem as colunas prioridade e usuario_id, então o servidor confere com PRAGMA table_info e acrescenta as colunas que faltam, sem apagar dados.
+Principal dificuldade 🧩
+(preencher)
+Como eu resolvi 🔧
+(preencher)
+Aula 05 — Primeiro app em React com Vite
+O que eu aprendi ✅
+Criei o projeto primeiro-app-react com o Vite (npm create vite@latest, template react) e rodei com npm run dev.
+Usei useState para guardar valores que mudam na tela (quantas tarefas concluí e se o modo foco está ligado): quando chamo o set, o React desenha a tela de novo sozinho.
+Separei o botão em um componente próprio (BotaoAcao) e reaproveitei nos três botões, mudando só as props (texto, aoClicar, tipo e desabilitado).
+Usei renderização condicional ({metaBatida && ...}) para a mensagem só aparecer quando a meta chega em 5.
+Principal dificuldade 🧩
+(preencher)
+Como eu resolvi 🔧
+(preencher)

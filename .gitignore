@@ -1,0 +1,14 @@
+# Dependências (recriadas com npm install)
+node_modules/
+
+# Banco SQLite local (criado ao rodar o servidor)
+*.db
+*.db-journal
+
+# Variáveis de ambiente (ex.: JWT_SECRET)
+.env
+.env.*
+
+# Saída de build e logs
+dist/
+*.log
