@@ -10,7 +10,7 @@ Desenvolver um gerenciador de tarefas completo, multi-usuário, persistindo os d
 
 ## Status Atual
 
-Em desenvolvimento. O back-end já é multi-usuário: cadastro, login com JWT e cada usuário só enxerga as próprias tarefas. A interface ainda não consome a API.
+Em desenvolvimento. O back-end já é multi-usuário: cadastro, login com JWT e cada usuário só enxerga as próprias tarefas. No front-end, o gerenciador de tarefas já existe em React, mas ainda guarda as tarefas só na memória (não consome a API).
 
 ## Recursos Implementados
 
@@ -26,7 +26,9 @@ Em desenvolvimento. O back-end já é multi-usuário: cadastro, login com JWT e 
 - Erros controlados: `400` para validação, `404` para registro inexistente, `500` genérico sem vazar a estrutura do banco
 - Transação no `PATCH` para atualização parcial atômica
 - Front-end com seção de login, formulário de cadastro e grade responsiva de tarefas
-- Primeiro app em React (`primeiro-app-react/`): `useState`, componente com props e renderização condicional
+- Primeiro app em React (`primeiro-app-react/`): `useState`, componente com props e renderização condicional (Aula 05)
+- Gerenciador de tarefas em React (Aula 06): adicionar, marcar como concluída, remover, filtrar (todas, pendentes, concluídas) e limpar concluídas
+- Componentes reutilizáveis `BotaoAcao` e `ItemTarefa`; contadores calculados a partir do estado
 
 ## Tecnologias Utilizadas
 
@@ -35,6 +37,7 @@ Em desenvolvimento. O back-end já é multi-usuário: cadastro, login com JWT e 
 - SQLite via `better-sqlite3`
 - `bcryptjs` (hash de senha) e `jsonwebtoken` (JWT)
 - HTML5 semântico e Tailwind CSS (Play CDN)
+- React 19 com Vite
 - Git e GitHub Codespaces
 
 ## Como Rodar
@@ -46,7 +49,17 @@ npm run dev
 
 O servidor sobe em `http://localhost:3000` e cria o `tarefas.db` na primeira execução. Se você tiver um `tarefas.db` antigo, ele é atualizado sozinho (as colunas novas são acrescentadas; tarefas antigas ficam sem dono e não aparecem na lista).
 
-Para usar um segredo próprio nos tokens (recomendado fora da aula):
+Para rodar o app React (em outro terminal):
+
+```bash
+cd primeiro-app-react
+npm install
+npm run dev
+```
+
+O Vite mostra o endereço no terminal (normalmente `http://localhost:5173`). A tela da Aula 05 fica em `src/Aula05MetaFoco.jsx`.
+
+Para usar um segredo próprio nos tokens:
 
 ```bash
 JWT_SECRET="um-texto-longo-e-aleatorio" npm run dev
@@ -67,7 +80,14 @@ Abra o `requests.http` no VS Code com a extensão REST Client:
 ├── server.ts           # API REST e acesso ao banco
 ├── index.html          # Interface principal (login, cadastro e lista de tarefas)
 ├── requests.http       # Testes da API (REST Client)
-├── primeiro-app-react/ # Primeiro app em React + Vite (tem README próprio)
+├── primeiro-app-react/ # Apps em React + Vite
+│   ├── vite.config.js
+│   └── src/
+│       ├── main.jsx            # Monta o App na página
+│       ├── App.jsx             # Aula 06: gerenciador de tarefas
+│       ├── ItemTarefa.jsx      # Uma tarefa da lista
+│       ├── BotaoAcao.jsx       # Botão reutilizável
+│       └── Aula05MetaFoco.jsx  # Aula 05: meta e modo foco
 ├── 00_setup.md         # Diário das aulas
 ├── .gitignore          # node_modules, *.db e .env fora do Git
 ├── tarefas.db          # Banco SQLite (ignorado pelo Git)
