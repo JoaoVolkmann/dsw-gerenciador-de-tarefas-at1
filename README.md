@@ -4,7 +4,7 @@ Projeto da disciplina de Desenvolvimento de Sistemas Web (DSW).
 
 **Estudante:** João Volkmann
 
-**Aplicação no ar:** https://SEU-SERVICO.onrender.com <!-- troque pelo endereço do Render depois do deploy -->
+**Aplicação no ar:** https://gerenciador-de-tarefas-kizr.onrender.com
 
 ## Objetivo do Projeto
 
@@ -92,8 +92,8 @@ Usuário de demonstração: `admin@senai.com` / `senha_super_secreta_123`.
 
 5. **Testar na URL pública:**
    ```bash
-   curl https://SEU-SERVICO.onrender.com/api/health     # status "ok" e banco "Turso / libSQL (nuvem)"
-   curl https://SEU-SERVICO.onrender.com/api/db-check   # ok: true, tabelas usuarios e tarefas
+   curl https://gerenciador-de-tarefas-kizr.onrender.com/api/health     # status "ok" e banco "Turso / libSQL (nuvem)"
+   curl https://gerenciador-de-tarefas-kizr.onrender.com/api/db-check   # ok: true, tabelas usuarios e tarefas
    ```
    No navegador: entrar com o admin, criar uma tarefa e dar F5 em `/tarefas` (não pode dar 404).
 

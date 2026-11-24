@@ -170,7 +170,7 @@ Ela confirma que a API consegue falar com o banco (SELECT 1), lista as tabelas c
 Porque o push dispara o deploy automático. Se o build quebra na minha máquina, vai quebrar no Render também; testando antes, eu corrijo sem derrubar o site.
 
 **6. O que aconteceu ao dar F5 em /tarefas na URL pública?**
-A página carregou normalmente, sem 404. O Express devolve o index.html para qualquer caminho que não seja /api, e o React decide a tela. [confirmar depois do deploy]
+A página carregou normalmente, sem 404. O Express devolve o index.html para qualquer caminho que não seja /api, e o React decide a tela.
 
 **7. Encontrei algum erro? Qual a causa e a solução?**
-No build local, o projeto antigo do primeiro-app-react tinha arquivos em pastas erradas (src/src/src), o que quebrava o build do Vite. Organizei tudo direto em src/. [completar se aparecer algum erro nos logs do Render]
+No build local, o projeto antigo do primeiro-app-react tinha arquivos em pastas erradas (src/src/src), o que quebrava o build do Vite. Organizei tudo direto em src/. Na hora de subir o código, a pasta web/ não foi enviada e a node_modules tinha ido para o GitHub: recriei a web/, tirei a node_modules do repositório com git rm --cached e rodei o npm run build de novo antes do push. No Render, o deploy passou na primeira tentativa.
