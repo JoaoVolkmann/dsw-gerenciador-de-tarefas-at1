@@ -6,6 +6,7 @@
 #      O token do login fica guardado em {{token}} e as rotas de tarefas já usam ele.
 #   3. Clique em "Send Request" acima de cada bloco.
 
+# Para testar o deploy, troque pelo endereço do Render (ex.: https://gerenciador-de-tarefas.onrender.com)
 @baseUrl = http://localhost:3000
 @token = {{login.response.body.token}}
 

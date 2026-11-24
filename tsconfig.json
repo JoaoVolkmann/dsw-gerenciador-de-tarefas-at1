@@ -4,7 +4,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["ES2022"],
-    "outDir": "dist",
+    "types": ["node"],
+    "noEmit": true,
     "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
@@ -12,6 +13,6 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["**/*.ts"],
+  "include": ["server.ts"],
   "exclude": ["node_modules", "dist"]
 }

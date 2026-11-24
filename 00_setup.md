@@ -140,3 +140,37 @@ Entender por que não posso só dar push na lista (tarefas.push(nova)): o React 
 
 ### Como eu resolvi 🔧
 Passei a sempre criar uma lista nova com spread, map e filter dentro do set, usando a forma setTarefas((atual) => ...), que pega a versão mais recente da lista.
+
+---
+
+## Aula 10 — Deploy no Render com banco no Turso (18/11/2026)
+
+### O que eu aprendi ✅
+Troquei o better-sqlite3 pelo @libsql/client para usar o Turso, um SQLite na nuvem. Com TURSO_URL e TURSO_TOKEN o servidor usa o Turso; sem elas, continua no arquivo tarefas.db. As rotas viraram async/await e o SQL continua parametrizado (valores sempre em args).
+
+Criei o front em React + TypeScript na pasta web/, com login e cadastro. O token JWT fica no localStorage e vai no cabeçalho Authorization. Se a API responde 401, o app volta para o login.
+
+No Render, um Web Service só entrega a API (/api) e a página do React (web/dist). Como é o mesmo endereço, não precisa de CORS.
+
+### Diário de Bordo — Deploy no Render
+
+**1. Por que o build precisou de `npm --prefix web install` antes do `npm run build:web`?**
+O Render clona o repositório do zero, e o node_modules/ está no .gitignore. Sem instalar as dependências dentro de web/, o Vite e o TypeScript do front não existiriam lá e o build quebraria.
+
+**2. Qual é a função do render.yaml e por que buildCommand e startCommand pedem atenção?**
+Ele descreve o serviço como código: nome, plano, comandos, variáveis e health check. O padrão do Render é só `npm install`; se o buildCommand não tiver `&& npm run build`, o web/dist nunca é gerado e o site mostra "Ainda não existe o build do front-end". O startCommand é o que liga o servidor.
+
+**3. Por que o JWT_SECRET pôde ficar em branco e o TURSO_URL/TURSO_TOKEN não?**
+O JWT_SECRET só precisa ser um segredo aleatório, e o `generateValue: true` faz o Render criar um sozinho. Já a URL e o token do Turso apontam para o MEU banco: só eu tenho esses dados, então preciso copiar do painel do Turso.
+
+**4. Para que serve a rota /api/db-check?**
+Ela confirma que a API consegue falar com o banco (SELECT 1), lista as tabelas criadas e conta os registros de cada uma. Em produção, mostra se o Turso está conectado sem precisar testar login, separando erro de banco de erro de senha.
+
+**5. Por que rodar npm run build localmente antes do git push?**
+Porque o push dispara o deploy automático. Se o build quebra na minha máquina, vai quebrar no Render também; testando antes, eu corrijo sem derrubar o site.
+
+**6. O que aconteceu ao dar F5 em /tarefas na URL pública?**
+A página carregou normalmente, sem 404. O Express devolve o index.html para qualquer caminho que não seja /api, e o React decide a tela. [confirmar depois do deploy]
+
+**7. Encontrei algum erro? Qual a causa e a solução?**
+No build local, o projeto antigo do primeiro-app-react tinha arquivos em pastas erradas (src/src/src), o que quebrava o build do Vite. Organizei tudo direto em src/. [completar se aparecer algum erro nos logs do Render]

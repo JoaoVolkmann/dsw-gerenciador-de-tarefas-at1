@@ -1,13 +1,15 @@
 {
   "name": "dsw-gerenciador-de-tarefas-at1",
-  "version": "1.0.0",
-  "description": "Gerenciador de tarefas multi-usuário com persistência em SQLite — disciplina de Desenvolvimento de Sistemas Web (DSW).",
+  "version": "1.1.0",
+  "description": "Gerenciador de tarefas multi-usuário (React + TypeScript, API Express com JWT e banco Turso) — disciplina de Desenvolvimento de Sistemas Web (DSW).",
   "type": "module",
   "main": "server.ts",
   "scripts": {
     "dev": "tsx watch server.ts",
     "start": "tsx server.ts",
-    "build": "tsc"
+    "build": "npm --prefix web install && npm run build:web && tsc",
+    "build:web": "npm --prefix web run build",
+    "dev:web": "npm --prefix web run dev"
   },
   "repository": {
     "type": "git",
@@ -21,20 +23,19 @@
   },
   "homepage": "https://github.com/JoaoVolkmann/dsw-gerenciador-de-tarefas-at1#readme",
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "bcryptjs": "^3.0.3",
-    "better-sqlite3": "^13.0.3",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^9.6.0",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.2.0",
-    "tsx": "^4.23.12",
     "typescript": "^7.0.2"
   },
-  "allowScripts": {
-    "better-sqlite3@13.0.3": true
+  "engines": {
+    "node": ">=20"
   }
 }

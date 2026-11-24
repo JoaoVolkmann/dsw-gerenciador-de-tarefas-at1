@@ -12,3 +12,9 @@ node_modules/
 # Saída de build e logs
 dist/
 *.log
+
+# Build do front React
+web/dist/
+
+# O .env.example pode ir para o Git (não tem segredo)
+!.env.example
